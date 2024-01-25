@@ -4,7 +4,9 @@ import "./PokemonComponent.css";
 function MyComponent() {
   const [pokemonList, setPokemonList] = useState([]);
   const [renderedPokemon, setRenderedPokemon] = useState(null);
-  const index = 300;
+  let startingIndex = 0;
+  let endingIndex = 10;
+  const index = 151;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,9 +26,10 @@ function MyComponent() {
 
         // Set the entire Pokémon list to state
         setPokemonList(pokemonArray);
+        console.log(pokemonArray);
 
         // Call the function to display Pokémon
-        displayPokemon(pokemonArray);
+        displayPokemon(pokemonArray.slice(startingIndex, endingIndex));
       } catch (error) {
         console.log(error);
       }
@@ -63,11 +66,21 @@ function MyComponent() {
     setRenderedPokemon(pokemonElements);
   }
 
+  function handleLoadMore() {
+    // Increase the starting and ending index by 10
+    startingIndex += 10;
+    endingIndex += 10;
+
+    // Display the next 10 Pokémon
+    displayPokemon(pokemonList.slice(startingIndex, endingIndex));
+  }
+
   return (
     <>
       <h1>Pokémon</h1>
       {/* Render the stored JSX elements */}
       {renderedPokemon}
+      <button onClick={handleLoadMore}>Load More</button>
     </>
   );
 }
