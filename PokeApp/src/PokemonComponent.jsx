@@ -4,8 +4,8 @@ import "./PokemonComponent.css";
 function MyComponent() {
   const [pokemonList, setPokemonList] = useState([]);
   const [renderedPokemon, setRenderedPokemon] = useState(null);
-  let startingIndex = 0;
-  let endingIndex = 10;
+  const [startingIndex, setStartingIndex] = useState(0);
+  const [endingIndex, setEndingIndex] = useState(10);
   const index = 151;
 
   useEffect(() => {
@@ -36,7 +36,7 @@ function MyComponent() {
     };
 
     fetchData();
-  }, []);
+  }, [startingIndex, endingIndex]);
 
   function displayPokemon(pokemonArray) {
     // Create an array of JSX elements
@@ -67,12 +67,8 @@ function MyComponent() {
   }
 
   function handleLoadMore() {
-    // Increase the starting and ending index by 10
-    startingIndex += 10;
-    endingIndex += 10;
-
-    // Display the next 10 Pokémon
-    displayPokemon(pokemonList.slice(startingIndex, endingIndex));
+    // Update starting and ending index by 10
+    setEndingIndex(endingIndex + 25);
   }
 
   return (
